@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-const ChangeBookShelf = ({ book, Shelfs, editBookShelf, booksMatchShelf }) => {
+const ChangeBookShelf = ({
+  book,
+  Shelfs,
+  editBookShelf,
+  booksMatchShelf,
+}) => {
   const [shelf, setShelf] = useState(null);
 
   const bookShelfHandler = (event) => {
@@ -9,27 +14,37 @@ const ChangeBookShelf = ({ book, Shelfs, editBookShelf, booksMatchShelf }) => {
     setShelf(bookShelf);
   };
 
-  useEffect(() => {
-    if (checkBookInShelfAlready()[0]) {
-      setShelf(checkBookInShelfAlready()[0].shelf);
-    } else {
-      setShelf(book.shelf);
-    }
-  }, []);
-
   const checkBookInShelfAlready = () => {
-    const existInShelf = booksMatchShelf.filter((booksMatchShelf) => {
+    const existInShelf = booksMatchShelf?.filter((booksMatchShelf) => {
       return booksMatchShelf.id === book.id;
     });
     return existInShelf;
   };
 
-  useEffect((prevState) => {
-    book.shelf = shelf;
-    if (prevState.bookShelf !== null && prevState.bookShelf !== book.shelf) {
-      editBookShelf(book);
+  useEffect(() => {
+    // eslint-disable-next-line array-callback-return
+    booksMatchShelf?.map((bookInLib) => {
+      if (book.id === bookInLib.id && !book.shelf) {
+        setShelf(bookInLib.shelf);
+      }
+    });
+  }, [book.id, book.shelf, booksMatchShelf]);
+
+  useEffect(() => {
+    let bookInShelf = checkBookInShelfAlready();
+    if (bookInShelf?.length > 0) {
+      setShelf(bookInShelf[0].shelf);
+    } else {
+      setShelf(book.shelf);
     }
   }, []);
+
+  useEffect(() => {
+    if (shelf !== null && shelf !== book.shelf) {
+      book.shelf = shelf;
+      editBookShelf(book);
+    }
+  }, [shelf]);
 
   return (
     <div className="book-shelf-changer">
@@ -52,7 +67,7 @@ ChangeBookShelf.propTypes = {
   book: PropTypes.object.isRequired,
   Shelfs: PropTypes.array.isRequired,
   editBookShelf: PropTypes.func.isRequired,
-  booksMatchShelf: PropTypes.array
+  booksMatchShelf: PropTypes.array,
 };
 
 export default ChangeBookShelf;

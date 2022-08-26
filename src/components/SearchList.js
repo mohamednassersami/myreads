@@ -10,7 +10,7 @@ const SearchList = ({
 }) => {
   const [searchListtBooks, setSearchListtBooks] = useState([]);
 
-  useEffect((prevProps) => {
+  useEffect(() => {
     if ( searchResult) {
       if (searchResult.length) {
         setSearchListtBooks(searchResult);
@@ -18,7 +18,7 @@ const SearchList = ({
         setSearchListtBooks([]);
       }
     }
-  });
+  },[searchResult]);
 
   return (
     <div className="search-books-results">

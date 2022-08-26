@@ -6,13 +6,24 @@ import SearchList from "./SearchList";
 
 const SearchPage = ({ Shelfs, addNewBook, alreadyExistingBooks }) => {
   const [booksList, setBooksList] = useState([]);
-  const handelBooksList = async (query) => {
-    if (query.trim()) {
-      const res = await BooksAPI.search(query);
-      setBooksList(res);
+
+
+  const handelBooksList = (query) => {
+    setTimeout(() => {
+      if (query.trim()) {
+      BooksAPI.search(query)
+        .then((books) => {
+          setBooksList(books);
+          
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       setBooksList([]);
     }
+    }, 300);
+    
   };
   return (
     <div className="search-books">

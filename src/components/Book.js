@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import ChangeBookShelf from "./ChangeBookShelf";
 
 const Book = ({
+  books,
   book,
   imageURL,
   authors,
   bookTitle,
   Shelfs,
   editBookShelf,
-  booksMatchShelf,
+  alreadyExistingBooks,
 }) => {
   return (
     <li>
@@ -23,23 +24,13 @@ const Book = ({
               backgroundImage: `url(${imageURL})`,
             }}
           ></div>
-          <div className="book-shelf-changer">
-            <select>
-              <option value="none" disabled>
-                Move to...
-              </option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
-              <option value="none">None</option>
-            </select>
-          </div>
-          {/* <ChangeBookShelf
+          <ChangeBookShelf
+            books={books}
             book={book}
             Shelfs={Shelfs}
             editBookShelf={(book) => editBookShelf(book)}
-            booksMatchShelf={booksMatchShelf}
-          /> */}
+            booksMatchShelf={alreadyExistingBooks}
+          />
         </div>
         <div className="book-title">{bookTitle}</div>
         <div className="book-authors">{authors && authors.join(", ")}</div>

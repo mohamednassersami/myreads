@@ -14,15 +14,17 @@ const Shelf = ({ title, value, Shelfs, books, editBookShelf }) => {
       <h2 className="bookshelf-title">{title}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {booksMatchShelf(value).map((book , index) => (
+          {booksMatchShelf(value).map((book, index) => (
             <Book
+              books={books}
+              booksMatchShelf={booksMatchShelf(value)}
               key={index}
               book={book}
               imageURL={book.imageLinks.thumbnail}
               authors={book.authors}
               bookTitle={book.title}
               Shelfs={Shelfs}
-              editBookShelf = {(book) => editBookShelf(book)}
+              editBookShelf={(book) => editBookShelf(book)}
             />
           ))}
         </ol>
@@ -36,7 +38,7 @@ Shelf.propTypes = {
   value: PropTypes.string.isRequired,
   Shelfs: PropTypes.array.isRequired,
   books: PropTypes.array.isRequired,
-  editBookShelf: PropTypes.func.isRequired
+  editBookShelf: PropTypes.func.isRequired,
 };
 
 export default Shelf;

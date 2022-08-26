@@ -8,11 +8,15 @@ const SearchInput = ({ searchValue }) => {
   const inputHandler = (event) => {
     setBookTitle(event.target.value);
   };
-  useEffect((prevState) => {
-    if ( bookTitle) {
+  useEffect(() => {
+    if (bookTitle) {
       searchValue(bookTitle);
     }
-  });
+    else{
+      searchValue("");
+    }
+   
+  },[bookTitle]);
 
   return (
     <div className="search-books-bar">
@@ -23,7 +27,7 @@ const SearchInput = ({ searchValue }) => {
         <input
           type="text"
           placeholder="Search by title, author, or ISBN"
-          onChange={(e) => inputHandler(e)}
+          onChange={ (e) => inputHandler(e)}
         />
       </div>
     </div>
