@@ -51,7 +51,10 @@ const SearchList = ({
 SearchList.propTypes = {
   Shelfs: PropTypes.array.isRequired,
   editBookShelf: PropTypes.func.isRequired,
-  searchResult: PropTypes.array,
+  searchResult: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object
+  ]),
 };
 
 export default SearchList;

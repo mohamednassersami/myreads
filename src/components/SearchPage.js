@@ -1,30 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import * as BooksAPI from "../BooksAPI";
 import SearchInput from "./SearchInput";
 import SearchList from "./SearchList";
+import debounce from "lodash.debounce";
 
 const SearchPage = ({ Shelfs, addNewBook, alreadyExistingBooks }) => {
   const [booksList, setBooksList] = useState([]);
 
-
-  const handelBooksList = (query) => {
-    setTimeout(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handelBooksList = useCallback(
+    debounce((query) => {
       if (query.trim()) {
-      BooksAPI.search(query)
-        .then((books) => {
-          setBooksList(books);
-          
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      setBooksList([]);
-    }
-    }, 300);
-    
-  };
+        console.log("====>", query);
+        BooksAPI.search(query)
+          .then((books) => {
+            setBooksList(books);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        console.log("====>", query);
+        setBooksList([]);
+      }
+    }, 500)
+  )
+
   return (
     <div className="search-books">
       <SearchInput searchValue={(q) => handelBooksList(q)} />
